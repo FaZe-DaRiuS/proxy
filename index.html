@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="index.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="shortcut icon" type="image/png" href="logo2.png" />
+    <title>Inicio</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Unblocker creado por Darío</h1>
+        <div id="password-container">
+            <span class="w3-xlarge">Enter password: </span>
+            <div>
+                <input class="w3-xlarge" type='password' id='password-input' />
+                <button onclick='validatePassword()' class="w3-xlarge">Submit</button>
+            </div>
+            <br>
+            <br>
+        </div>
+        <div id="url-input-container" style="display: none;">
+            <span class="w3-xlarge">Input your URL here: </span>
+            <input class="w3-xlarge" type='text' placeholder='https://www.google.com' id='url-input' />
+            <button onclick='go()' class="w3-xlarge" id='go-button'>Go!</button>
+        </div>
+        <br>
+        <br>
+    </div>
+
+    <script>
+        var password = "1234"; // set the password here
+        var attempts = 0; // initialize attempts counter
+
+        function validatePassword() {
+            var inputPassword = document.getElementById('password-input');
+            attempts++; // increment attempts counter
+            if (inputPassword.value === password) {
+                // password is correct, allow user to continue
+                document.getElementById('password-container').style.display = 'none';
+                document.getElementById('url-input-container').style.display = 'block';
+            } else {
+                // password is incorrect, show error message
+                var intentosRestantes = 3 - attempts + 1;
+                if (attempts >= 3) {
+                    // disable password input field and submit button after 3 failed attempts
+                    inputPassword.disabled = true;
+                    document.querySelector('#password-container button').disabled = true;
+                    alert('Se han agotado los intentos. Por favor, recargue la página.');
+                } else {
+                    alert(`Contraseña incorrecta. Te quedan ${intentosRestantes} intentos.`);
+                }
+            }
+        }
+
+        function go() {
+            var input = document.getElementById('url-input');
+            if (input.value) {
+                window.location.href = '/main/' + input.value;
+            } else {
+                alert('Introduce una url, no es necesario el https');
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            var inputPassword = document.getElementById('password-input');
+
+            inputPassword.focus(); // add focus to the password input field
+
+            inputPassword.addEventListener("keydown", function(event) {
+                if (event.key === "Enter") {
+                    validatePassword();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
